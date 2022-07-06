@@ -12,6 +12,10 @@ export class DataItem extends BaseEntity implements UpdateDataDto {
   @Column()
   kcal: number;
 
-  @Column()
+  @Column({
+    type: 'float',
+    precision: 4,
+    scale: 1,
+  })
   weight: number;
 }
