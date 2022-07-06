@@ -6,10 +6,14 @@ export class DataItem extends BaseEntity implements UpdateDataDto {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({
+    precision: 2,
+  })
   day: number;
 
-  @Column()
+  @Column({
+    precision: 5,
+  })
   kcal: number;
 
   @Column({
