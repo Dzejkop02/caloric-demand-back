@@ -43,4 +43,10 @@ export class DataService {
 
     return this.getData();
   }
+
+  async clearData(): Promise<getDataResponse> {
+    await DataItem.clear();
+
+    return this.getData();
+  }
 }
