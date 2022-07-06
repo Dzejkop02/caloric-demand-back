@@ -49,4 +49,10 @@ export class DataService {
 
     return this.getData();
   }
+
+  async deleteOne(day: number) {
+    await DataItem.delete({ day });
+
+    return this.getData();
+  }
 }

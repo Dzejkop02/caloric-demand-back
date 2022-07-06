@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { getDataResponse } from '../interfaces/data';
 import { DataService } from './data.service';
 import { UpdateDataDto } from './dto/update-data.dto';
@@ -20,5 +28,10 @@ export class DataController {
   @Delete('/')
   clearData(): Promise<getDataResponse> {
     return this.dataService.clearData();
+  }
+
+  @Delete('/:day')
+  deleteOne(@Param('day') day: string): Promise<getDataResponse> {
+    return this.dataService.deleteOne(Number(day));
   }
 }
