@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { getDataResponse } from '../interfaces';
 import { DataItem } from './data-item.entity';
 import { UpdateDataDto } from './dto/update-data.dto';
+import { sortData } from '../utils/sort-data';
 
 @Injectable()
 export class DataService {
   async getData(): Promise<getDataResponse> {
-    return DataItem.find();
+    return sortData(await DataItem.find());
   }
 
   async addDayOrUpdate(dayData: UpdateDataDto): Promise<getDataResponse> {
