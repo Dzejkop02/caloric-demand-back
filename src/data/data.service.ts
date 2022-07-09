@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getDataResponse } from '../interfaces/data';
+import { getDataResponse } from '../interfaces';
 import { DataItem } from './data-item.entity';
 import { UpdateDataDto } from './dto/update-data.dto';
 

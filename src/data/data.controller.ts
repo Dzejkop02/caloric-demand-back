@@ -7,7 +7,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { getDataResponse } from '../interfaces/data';
+import { getDataResponse } from '../interfaces';
 import { DataService } from './data.service';
 import { UpdateDataDto } from './dto/update-data.dto';
 
