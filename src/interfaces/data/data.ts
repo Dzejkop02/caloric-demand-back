@@ -6,10 +6,10 @@ export interface OneDayFromDatabase {
 }
 
 export interface OneFilteredDay {
-  id: string | null;
+  id?: string;
   day: number;
-  kcal: number | null;
-  weight: number | null;
+  kcal?: number;
+  weight?: number;
   hasInfo: boolean;
 }
 
