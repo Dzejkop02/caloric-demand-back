@@ -1,9 +1,9 @@
 import { getDataResponse, OneDayFromDatabase } from '../interfaces';
 
 export const sortData = (data: OneDayFromDatabase[]): getDataResponse => {
-  const arr: getDataResponse = Array.from({ length: 14 }, (_, i) => ({
+  const arr: getDataResponse = Array.from({ length: 15 }, (_, i) => ({
     id: null,
-    day: i + 1,
+    day: i++,
     kcal: null,
     weight: null,
     hasInfo: false,
@@ -17,6 +17,10 @@ export const sortData = (data: OneDayFromDatabase[]): getDataResponse => {
       arr[day].hasInfo = true;
     }
   }
+
+  arr.shift();
+
+  console.log(arr);
 
   return arr;
 };
