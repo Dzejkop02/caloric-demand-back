@@ -6,10 +6,12 @@ import {
   Inject,
   Param,
   Post,
+  Res,
 } from '@nestjs/common';
 import { getDataResponse } from '../interfaces';
 import { DataService } from './data.service';
 import { UpdateDataDto } from './dto/update-data.dto';
+import { Response } from 'express';
 
 @Controller('data')
 export class DataController {
@@ -21,8 +23,11 @@ export class DataController {
   }
 
   @Post('/')
-  addDayOrUpdate(@Body() dayData: UpdateDataDto): Promise<getDataResponse> {
-    return this.dataService.addDayOrUpdate(dayData);
+  addDayOrUpdate(
+    @Body() dayData: UpdateDataDto,
+    @Res() res: Response,
+  ): Promise<void> {
+    return this.dataService.addDayOrUpdate(dayData, res);
   }
 
   @Delete('/')

@@ -13,4 +13,14 @@ export interface OneFilteredDay {
   hasInfo: boolean;
 }
 
-export type getDataResponse = OneFilteredDay[];
+export interface getDataResponseSuccess {
+  ok: true;
+  data: OneFilteredDay[];
+}
+
+export interface getDataResponseError {
+  ok: false;
+  message: string;
+}
+
+export type getDataResponse = getDataResponseSuccess | getDataResponseError;

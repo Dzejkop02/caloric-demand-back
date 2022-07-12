@@ -1,7 +1,13 @@
-import { getDataResponse, OneDayFromDatabase } from '../interfaces';
+import {
+  getDataResponseSuccess,
+  OneDayFromDatabase,
+  OneFilteredDay,
+} from '../interfaces';
 
-export const sortData = (data: OneDayFromDatabase[]): getDataResponse => {
-  const arr: getDataResponse = Array.from({ length: 15 }, (_, i) => ({
+export const sortData = (
+  data: OneDayFromDatabase[],
+): getDataResponseSuccess => {
+  const arr: OneFilteredDay[] = Array.from({ length: 15 }, (_, i) => ({
     day: i++,
     hasInfo: false,
   }));
@@ -17,7 +23,8 @@ export const sortData = (data: OneDayFromDatabase[]): getDataResponse => {
 
   arr.shift();
 
-  console.log(arr);
-
-  return arr;
+  return {
+    ok: true,
+    data: arr,
+  };
 };
