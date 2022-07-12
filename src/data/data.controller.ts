@@ -22,12 +22,13 @@ export class DataController {
     return this.dataService.getData();
   }
 
-  @Post('/')
+  @Post('/:day')
   addDayOrUpdate(
     @Body() dayData: UpdateDataDto,
     @Res() res: Response,
+    @Param('day') day: string,
   ): Promise<void> {
-    return this.dataService.addDayOrUpdate(dayData, res);
+    return this.dataService.addDayOrUpdate(Number(day), dayData, res);
   }
 
   @Delete('/')

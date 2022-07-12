@@ -11,8 +11,12 @@ export class DataService {
     return sortData(await DataItem.find());
   }
 
-  async addDayOrUpdate(dayData: UpdateDataDto, res: Response): Promise<void> {
-    const { day, kcal, weight } = dayData;
+  async addDayOrUpdate(
+    day: number,
+    dayData: UpdateDataDto,
+    res: Response,
+  ): Promise<void> {
+    const { kcal, weight } = dayData;
 
     if (typeof day !== 'number' || day < 1 || day > 14) {
       res.status(400).json({
