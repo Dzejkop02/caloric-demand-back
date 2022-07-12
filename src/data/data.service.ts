@@ -1,27 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { getDataResponse } from '../interfaces/data';
+import { getDataResponse } from '../interfaces';
 import { DataItem } from './data-item.entity';
 import { UpdateDataDto } from './dto/update-data.dto';
+import { sortData } from '../utils/sort-data';
+import { Response } from 'express';
 
 @Injectable()
 export class DataService {
   async getData(): Promise<getDataResponse> {
-    return DataItem.find();
+    return sortData(await DataItem.find());
   }
 
-  async addDayOrUpdate(dayData: UpdateDataDto): Promise<getDataResponse> {
-    const { day, kcal, weight } = dayData;
+  async addDayOrUpdate(
+    day: number,
+    dayData: UpdateDataDto,
+    res: Response,
+  ): Promise<void> {
+    const { kcal, weight } = dayData;
 
     if (typeof day !== 'number' || day < 1 || day > 14) {
-      throw new Error('Day must be number from 1 to 14.');
+      res.status(400).json({
+        ok: false,
+        message: 'Day must be number from 1 to 14.',
+      });
+      return;
     }
 
     if (typeof kcal !== 'number' || kcal < 0 || kcal > 50000) {
-      throw new Error('Kcal must be number from 0 to 50000.');
+      res.status(400).json({
+        ok: false,
+        message: 'Kcal must be number from 0 to 50000.',
+      });
+      return;
     }
 
     if (typeof weight !== 'number' || weight < 20 || weight > 300) {
-      throw new Error('Weight must be number from 20 to 300.');
+      res.status(400).json({
+        ok: false,
+        message: 'Weight must be number from 20 to 300.',
+      });
+      return;
     }
 
     const foundDay = await DataItem.findOne({ where: { day } });
@@ -41,7 +59,7 @@ export class DataService {
       await newDay.save();
     }
 
-    return this.getData();
+    res.json(await this.getData());
   }
 
   async clearData(): Promise<getDataResponse> {
