@@ -8,7 +8,7 @@ export interface JwtPayload {
 }
 
 function cookieExtractor(req: any): null | string {
-  return req && req.cookies ? req.cookies?.NAZWA_CIASTKA ?? null : null;
+  return req && req.cookies ? req.cookies?.jwt ?? null : null;
 }
 
 @Injectable()
@@ -26,9 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       return done(new UnauthorizedException(), false);
     }
 
-    const user = await User.findOne({
-      where: { currentTokenId: payload.id },
-    });
+    const user = await User.findOne({ where: { currentTokenId: payload.id } });
     if (!user) {
       return done(new UnauthorizedException(), false);
     }
