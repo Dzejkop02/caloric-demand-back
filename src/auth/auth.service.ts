@@ -53,7 +53,7 @@ export class AuthService {
         },
       });
       if (!user) {
-        return res.json({ error: 'Invalid login data!' });
+        return res.json({ ok: false, error: 'Invalid login data!' });
       }
       const token = AuthService.createToken(
         await AuthService.generateToken(user),
@@ -66,6 +66,23 @@ export class AuthService {
           httpOnly: true,
         })
         .json({ ok: true });
+    } catch (e) {
+      return res.json({ ok: false, error: e.message });
+    }
+  }
+
+  async logout(user: User, res: Response) {
+    try {
+      user.currentTokenId = null;
+      await user.save();
+
+      res.clearCookie('jwt', {
+        secure: false,
+        domain: 'localhost',
+        httpOnly: true,
+      });
+
+      return res.json({ ok: true });
     } catch (e) {
       return res.json({ ok: false, error: e.message });
     }
