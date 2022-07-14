@@ -1,4 +1,5 @@
 export interface RegisterUserResponseSuccess {
+  ok: true;
   id: string;
   username: string;
 }

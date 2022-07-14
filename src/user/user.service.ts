@@ -8,7 +8,7 @@ import { hashPwd } from '../utils/hash-pwd';
 export class UserService {
   filter(user: User): RegisterUserResponse {
     const { id, username } = user;
-    return { id, username };
+    return { ok: true, id, username };
   }
 
   async register(newUserData: RegisterDto): Promise<RegisterUserResponse> {
