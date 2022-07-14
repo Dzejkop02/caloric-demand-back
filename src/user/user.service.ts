@@ -11,12 +11,25 @@ export class UserService {
     return { id, username };
   }
 
-  async register(newUser: RegisterDto): Promise<RegisterUserResponse> {
-    const user = new User();
-    user.username = newUser.username;
-    user.pwdHash = hashPwd(newUser.pwd);
-    await user.save();
+  async register(newUserData: RegisterDto): Promise<RegisterUserResponse> {
+    const foundUser = await User.findOne({
+      where: {
+        username: newUserData.username,
+      },
+    });
 
-    return this.filter(user);
+    if (foundUser) {
+      return {
+        ok: false,
+        error: 'Entered username is taken.',
+      };
+    }
+
+    const newUser = new User();
+    newUser.username = newUserData.username;
+    newUser.pwdHash = hashPwd(newUserData.pwd);
+    await newUser.save();
+
+    return this.filter(newUser);
   }
 }
