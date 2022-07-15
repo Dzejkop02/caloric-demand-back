@@ -4,17 +4,27 @@ import { DataItem } from './data-item.entity';
 import { UpdateDataDto } from './dto/update-data.dto';
 import { sortData } from '../utils/sort-data';
 import { Response } from 'express';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class DataService {
-  async getData(): Promise<getDataResponse> {
-    return sortData(await DataItem.find());
+  async getData(user: User): Promise<getDataResponse> {
+    const data = await DataItem.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
+
+    return sortData(data);
   }
 
   async addDayOrUpdate(
     day: number,
     dayData: UpdateDataDto,
     res: Response,
+    user: User,
   ): Promise<void> {
     const { kcal, weight } = dayData;
 
@@ -42,7 +52,14 @@ export class DataService {
       return;
     }
 
-    const foundDay = await DataItem.findOne({ where: { day } });
+    const foundDay = await DataItem.findOne({
+      where: {
+        day,
+        user: {
+          id: user.id,
+        },
+      },
+    });
 
     if (foundDay) {
       foundDay.weight = weight;
@@ -55,22 +72,30 @@ export class DataService {
       newDay.day = day;
       newDay.weight = weight;
       newDay.kcal = kcal;
+      newDay.user = user;
 
       await newDay.save();
     }
 
-    res.json(await this.getData());
+    res.json(await this.getData(user));
   }
 
-  async clearData(): Promise<getDataResponse> {
-    await DataItem.clear();
+  async clearData(user: User): Promise<getDataResponse> {
+    await DataItem.delete({
+      user: { id: user.id },
+    });
 
-    return this.getData();
+    return this.getData(user);
   }
 
-  async deleteOne(day: number) {
-    await DataItem.delete({ day });
+  async deleteOne(day: number, user: User) {
+    await DataItem.delete({
+      day,
+      user: {
+        id: user.id,
+      },
+    });
 
-    return this.getData();
+    return this.getData(user);
   }
 }

@@ -1,5 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UpdateDataDto } from './dto/update-data.dto';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class DataItem extends BaseEntity implements UpdateDataDto {
@@ -22,4 +30,8 @@ export class DataItem extends BaseEntity implements UpdateDataDto {
     scale: 1,
   })
   weight: number;
+
+  @ManyToOne((type) => User, (entity) => entity.dataItem)
+  @JoinColumn()
+  user: User;
 }
