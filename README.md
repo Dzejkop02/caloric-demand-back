@@ -24,15 +24,15 @@ This is the backend for the **Caloric Demand Calculator** application, built wit
 
 ### Suggested folder structure (to types work correctly):
 
-* <b>/caloric-demand-front</b> for fronted
-* <b>/caloric-demand-back</b> for backend
+* <b>/caloric-demand-front</b> for <a href="https://github.com/Dzejkop02/caloric-demand-front" target="_blank">frontend</a>
+* <b>/caloric-demand-back</b> for <a href="https://github.com/Dzejkop02/caloric-demand-back" target="_blank">backend</a>
 
 ### Installation
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/Dzejkop02/caloric-demand-back
-   cd backend
+   cd caloric-demand-back
    ```
    
 2. Install dependencies:
